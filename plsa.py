@@ -279,7 +279,7 @@ class Corpus(object):
 
             # ############################
             # your code here
-            self.expectation_step()
+            self.expectation_step(number_of_topics)
             diff = abs(self.topic_prob - last_topic_prob)
             L1 = diff.sum()
             print ("L1: ", L1)
