@@ -269,7 +269,7 @@ class Corpus(object):
             
 
 def main():
-    documents_path = '/Users/sunnie/Desktop/School/UIUC/CS410/MP3/data/test.txt'
+    documents_path = 'data/test.txt'
     corpus = Corpus(documents_path)  # instantiate corpus
     corpus.build_corpus()
     corpus.build_vocabulary()
