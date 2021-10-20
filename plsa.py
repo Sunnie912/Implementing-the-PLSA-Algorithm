@@ -152,9 +152,6 @@ class Corpus(object):
                     denomitor += self.topic_prob[index_doc, index_topic, index_word]
                 for index_topic in range(number_of_topics):
                     self.topic_prob[index_doc, index_topic, index_word] /= denomitor
-
-#         self.topic_prob = np.matmul(self.document_topic_prob, self.topic_word_prob)
-
         
     def maximization_step(self, number_of_topics):
         """ The M-step updates P(w | z)
@@ -172,10 +169,9 @@ class Corpus(object):
                     count = self.term_doc_matrix[index_doc, index_word]
                     self.topic_word_prob[index_topic, index_word] += count * self.topic_prob[index_doc, index_topic, index_word]
             self.topic_word_prob[index_topic, :] /= self.topic_word_prob[index_topic, :].sum()
+            
         
-#         self.topic_word_prob = np.sum(self.term_doc_matrix * self.topic_prob, axis = 1)
-        
-        # update P(z | d)
+        # update P(z | d)  Pi
 
         # ############################
         # your code here
@@ -187,8 +183,6 @@ class Corpus(object):
                     self.document_topic_prob[index_doc, index_topic] += count * self.topic_prob[index_doc, index_topic, index_word]
             self.document_topic_prob[index_doc, :] /= self.document_topic_prob[index_doc, :].sum()
 
-#         self.document_topic_prob = np.sum(self.term_doc_matrix * self.topic_prob, axis = 0)
-
     def calculate_likelihood(self, number_of_topics):
         """ Calculate the current log-likelihood of the model using
         the model's updated probability matrices
@@ -198,15 +192,20 @@ class Corpus(object):
         # ############################
         # your code here
         likelihood = 0.0
-#         for index_doc, document in enumerate(self.documents):
-#             for index_word in range(len(self.vocabulary)):
-#                 sum1 = 0;
-#                 for index_topic in range(number_of_topics):
-#                     sum1 += self.document_topic_prob[index_doc,index_topic]*self.topic_word_prob[index_topic,index_word]
-#                 likelihood += np.log(sum1)
+        for index_doc in range(len(self.documents)):
+            sum = 0
+            for index_word in range(len(self.vocabulary)):
+                sum1 = 0;
+                for index_topic in range(number_of_topics):
+                    sum1 += self.document_topic_prob[index_doc,index_topic]*self.topic_word_prob[index_topic,index_word]
+                sum1 = np.log(sum1)
+            sum += self.term_doc_matrix[index_doc, index_word] * sum1
+        likelihood += sum
+                
         
-        likelihood = np.sum(self.term_doc_matrix * np.log(np.matmul(self.document_topic_prob, self.topic_word_prob)))
+#         likelihood = np.sum(self.term_doc_matrix * np.log(np.matmul(self.document_topic_prob, self.topic_word_prob)))
         self.likelihoods.append(likelihood)
+        print(likelihood)
         return likelihood
 
     def plsa(self, number_of_topics, max_iter, epsilon):
@@ -246,6 +245,9 @@ class Corpus(object):
                 break;
             else:
                 current_likelihood = self.calculate_likelihood(number_of_topics)
+                
+        return self.topic_word_prob, self.document_topic_prob
+            
             
 
 def main():
