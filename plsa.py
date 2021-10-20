@@ -104,15 +104,11 @@ class Corpus(object):
         self.document_topic_prob = np.random.rand(self.number_of_documents,number_of_topics)
         # normalize
         self.document_topic_prob = normalize(self.document_topic_prob)
-#         norm_d = np.linalg.norm(document_topic_prob)
-#         document_topic_prob = document_topic_prob/norm_d
         
         self.topic_word_prob = np.random.rand(number_of_topics, self.vocabulary_size)
         # normalize
         self.topic_word_prob = normalize(self.topic_word_prob)
-#         norm_t = np.linalg.norm(topic_word_prob)
-#         topic_word_prob = topic_word_prob/norm_t
-#         print(document_topic_prob)
+
         
 
     def initialize_uniformly(self, number_of_topics):
@@ -191,22 +187,25 @@ class Corpus(object):
         """
         # ############################
         # your code here
-        likelihood = 0.0
-        for index_doc in range(len(self.documents)):
-            sum = 0
-            for index_word in range(len(self.vocabulary)):
-                sum1 = 0;
-                for index_topic in range(number_of_topics):
-                    sum1 += self.document_topic_prob[index_doc,index_topic]*self.topic_word_prob[index_topic,index_word]
-                sum1 = np.log(sum1)
-            sum += self.term_doc_matrix[index_doc, index_word] * sum1
-        likelihood += sum
+#         likelihood = 0.0
+#         for index_doc in range(len(self.documents)):
+#             sum = 0
+#             for index_word in range(len(self.vocabulary)):
+#                 sum1 = 0;
+#                 for index_topic in range(number_of_topics):
+#                     sum1 += self.document_topic_prob[index_doc,index_topic]*self.topic_word_prob[index_topic,index_word]
+#                 sum1 = np.log(sum1)
+#                 sum1 *= self.term_doc_matrix[index_doc, index_word]
+#             sum += sum1
+#         likelihood = sum
                 
         
-#         likelihood = np.sum(self.term_doc_matrix * np.log(np.matmul(self.document_topic_prob, self.topic_word_prob)))
+#         self.likelihoods.append(np.sum(np.log(self.document_topic_prob @ self.topic_word_prob) * self.term_doc_matrix))
+        likelihood = np.sum(self.term_doc_matrix * np.log(np.matmul(self.document_topic_prob, self.topic_word_prob)))
         self.likelihoods.append(likelihood)
-        print(likelihood)
-        return likelihood
+        
+        print(self.likelihoods[-1])
+        return self.likelihoods[-1]
 
     def plsa(self, number_of_topics, max_iter, epsilon):
 
@@ -228,7 +227,8 @@ class Corpus(object):
 
         # Run the EM algorithm
         current_likelihood = 0.0
-
+        last_topic_prob = self.topic_prob.copy()
+        
         for iteration in range(max_iter):
             print("Iteration #" + str(iteration + 1) + "...")
 
@@ -236,17 +236,35 @@ class Corpus(object):
             # your code here
             self.expectation_step(number_of_topics)
             
+            diff = np.abs(self.topic_prob - last_topic_prob)
+            L1 = diff.sum()
+            print("L1: ", L1)
+            print(last_topic_prob)
+            
+            last_topic_prob = self.topic_prob.copy()
+            
             self.maximization_step(number_of_topics)
             self.calculate_likelihood(number_of_topics)
             
-            gap = np.abs(self.calculate_likelihood(number_of_topics) - current_likelihood)
+            tmp_likelihood = self.calculate_likelihood(number_of_topics)
+            if iteration > max_iter and abs(current_likelihood - tmp_likelihood) < epsilon/10:
+                print('Stopping', tmp_likelihood)
+                return tmp_likelihood
+            current_likelihood = tmp_likelihood
+            print(max(self.likelihoods))
             
-            if gap < epsilon:
-                break;
-            else:
-                current_likelihood = self.calculate_likelihood(number_of_topics)
+#             self.maximization_step(number_of_topics)
+#             self.calculate_likelihood(number_of_topics)
+            
+#             gap = np.abs(self.calculate_likelihood(number_of_topics) - current_likelihood)
+            
+#             if gap < epsilon:
+#                 break;
+#             else:
+#                 current_likelihood = self.calculate_likelihood(number_of_topics)
                 
-        return self.topic_word_prob, self.document_topic_prob
+#         return self.topic_word_prob, self.document_topic_prob
+            
             
             
 
