@@ -47,30 +47,29 @@ class Corpus(object):
         """
         # #############################
         # your code here
-#        with open(self.documents_path, "r+") as path:
-#            lines = path.readlines()
-#
-#            document = []
-#            for line in lines:
-#                document = line.split()
-#                self.documents.append(document)
-#        self.number_of_documents = len(self.documents)
-#
-#        path.close()
-#        #print(self.number_of_documents)
+        with open(self.documents_path, "r+") as path:
+            lines = path.readlines()
+            document = []
+            for line in lines:
+                document = line.split()
+                self.documents.append(document)
+        self.number_of_documents = len(self.documents)
 
-        print(self.documents_path)
-        with open(self.documents_path, 'r') as file:
-            for line in file.readlines():
-                doc = list()
-                doc.extend(line.split())
-                self.documents.append(doc)
-                # self.documents.append(doc)
-                self.number_of_documents += 1
+        path.close()
+        #print(self.number_of_documents)
 
-        # print(self.documents)
-        print(len(self.documents))
-        print(self.number_of_documents)
+#        print(self.documents_path)
+#        with open(self.documents_path, 'r') as file:
+#            for line in file.readlines():
+#                doc = list()
+#                doc.extend(line.split())
+#                self.documents.append(doc)
+#                # self.documents.append(doc)
+#                self.number_of_documents += 1
+#
+#        # print(self.documents)
+#        print(len(self.documents))
+#        print(self.number_of_documents)
 
     def build_vocabulary(self):
         """
@@ -85,13 +84,14 @@ class Corpus(object):
                 if word not in self.vocabulary and word != "":
                     self.vocabulary.append(word)
         self.vocabulary_size = len(self.vocabulary)
-        #print(self.vocabulary)
+        print("size1: ", self.vocabulary_size)
 
-#        res = set()
-#        for doc in self.documents:
-#            res.update(doc)
-#        self.vocabulary = res
-#        self.vocabulary_size = len(res)
+        res = set()
+        for doc in self.documents:
+            res.update(doc)
+        self.vocabulary = res
+        self.vocabulary_size = len(res)
+        print("size2: ", self.vocabulary_size)
 #        self.vocabulary_dist = {k: i for i, k in enumerate(self.vocabulary)}
 
     def build_term_doc_matrix(self):
