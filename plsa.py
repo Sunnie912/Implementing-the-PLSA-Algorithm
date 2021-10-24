@@ -240,7 +240,7 @@ class Corpus(object):
                  sum1 = np.log(sum1)
              sum += self.term_doc_matrix[index_doc, index_word] * sum1
          likelihood += sum
-                
+         i = 0
         
 #         self.likelihoods.append(np.sum(np.log(self.document_topic_prob @ self.topic_word_prob) * self.term_doc_matrix))
 #        likelihood = np.sum(self.term_doc_matrix * np.log(np.matmul(self.document_topic_prob, self.topic_word_prob)))
