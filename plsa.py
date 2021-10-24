@@ -81,6 +81,7 @@ class Corpus(object):
         for document in self.documents:
             for word in document:
                 if word not in self.vocabulary and word != "":
+                    print("word", word)
                     self.vocabulary.append(word)
         self.vocabulary_size = len(self.vocabulary)
         print("size1: ", self.vocabulary_size)
