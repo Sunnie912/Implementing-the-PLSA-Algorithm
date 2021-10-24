@@ -47,30 +47,30 @@ class Corpus(object):
         """
         # #############################
         # your code here
-        with open(self.documents_path, "r+") as path:
-            lines = path.readlines()
-        
-        document = []
-        for line in lines:
-            document = line.split()
-            self.documents.append(document)
-        self.number_of_documents = len(self.documents)
-
-        path.close()
-        #print(self.number_of_documents)
-
-#        print(self.documents_path)
-#        with open(self.documents_path, 'r') as file:
-#            for line in file.readlines():
-#                doc = list()
-#                doc.extend(line.split())
-#                self.documents.append(doc)
-#                # self.documents.append(doc)
-#                self.number_of_documents += 1
+#        with open(self.documents_path, "r+") as path:
+#            lines = path.readlines()
 #
-#        # print(self.documents)
-#        print(len(self.documents))
-#        print(self.number_of_documents)
+#            document = []
+#            for line in lines:
+#                document = line.split()
+#                self.documents.append(document)
+#        self.number_of_documents = len(self.documents)
+#
+#        path.close()
+#        #print(self.number_of_documents)
+
+        print(self.documents_path)
+        with open(self.documents_path, 'r') as file:
+            for line in file.readlines():
+                doc = list()
+                doc.extend(line.split())
+                self.documents.append(doc)
+                # self.documents.append(doc)
+                self.number_of_documents += 1
+
+        # print(self.documents)
+        print(len(self.documents))
+        print(self.number_of_documents)
 
     def build_vocabulary(self):
         """
