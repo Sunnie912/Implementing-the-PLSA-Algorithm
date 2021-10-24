@@ -92,7 +92,7 @@ class Corpus(object):
 #        self.vocabulary = res
 #        self.vocabulary_size = len(res)
 #        print("size2: ", self.vocabulary_size)
-#        self.vocabulary_dist = {k: i for i, k in enumerate(self.vocabulary)}
+        self.vocabulary_dist = {k: i for i, k in enumerate(self.vocabulary)}
 
     def build_term_doc_matrix(self):
         """
