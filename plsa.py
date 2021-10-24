@@ -50,7 +50,7 @@ class Corpus(object):
         with open(self.documents_path, "r") as path:
             lines = path.readlines()
             for line in lines:
-                document = list()
+                document = []
 #                document = re.split("\t|\n| ", line)
                 document.extend(line.split())
                 self.documents.append(document)
