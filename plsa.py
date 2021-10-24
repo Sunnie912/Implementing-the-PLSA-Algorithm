@@ -51,7 +51,7 @@ class Corpus(object):
             lines = path.readlines()
             document = []
             for line in lines:
-                document = line.split()
+                document = re.split("\t|\n| ", line)
                 self.documents.append(document)
         self.number_of_documents = len(self.documents)
 
@@ -79,12 +79,12 @@ class Corpus(object):
         """
         # #############################
         # your code here
-        for document in self.documents:
-            for word in document:
-                if word not in self.vocabulary and word != "":
-                    self.vocabulary.append(word)
-        self.vocabulary_size = len(self.vocabulary)
-        print("size1: ", self.vocabulary_size)
+#        for document in self.documents:
+#            for word in document:
+#                if word not in self.vocabulary and word != "":
+#                    self.vocabulary.append(word)
+#        self.vocabulary_size = len(self.vocabulary)
+#        print("size1: ", self.vocabulary_size)
 
         res = set()
         for doc in self.documents:
