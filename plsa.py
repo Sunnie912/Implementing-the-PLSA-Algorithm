@@ -47,7 +47,7 @@ class Corpus(object):
         """
         # #############################
         # your code here
-        with open(self.documents_path, "r+") as path:
+        with open(self.documents_path, "r") as path:
             lines = path.readlines()
             for line in lines:
                 document = list()
