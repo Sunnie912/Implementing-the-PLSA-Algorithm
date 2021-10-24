@@ -167,21 +167,21 @@ class Corpus(object):
         
         # ############################
         # your code here
-#        for index_doc in range(len(self.documents)):
-#            for index_word in range(len(self.vocabulary)):
-#                denomitor = 0
-#                for index_topic in range(number_of_topics):
-#                    self.topic_prob[index_doc, index_topic, index_word] = self.document_topic_prob[index_doc, index_topic] * self.topic_word_prob[index_topic, index_word]
-#                    denomitor += self.topic_prob[index_doc, index_topic, index_word]
-#                for index_topic in range(number_of_topics):
-#                    self.topic_prob[index_doc, index_topic, index_word] /= denomitor
+        for index_doc in range(len(self.documents)):
+            for index_word in range(len(self.vocabulary)):
+                denomitor = 0
+                for index_topic in range(number_of_topics):
+                    self.topic_prob[index_doc, index_topic, index_word] = self.document_topic_prob[index_doc, index_topic] * self.topic_word_prob[index_topic, index_word]
+                    denomitor += self.topic_prob[index_doc, index_topic, index_word]
+                for index_topic in range(number_of_topics):
+                    self.topic_prob[index_doc, index_topic, index_word] /= denomitor
 
-        self.topic_word_prob = np.nan_to_num(self.topic_word_prob)
-        for doc in range(self.topic_prob.shape[0]):
-            for voc in range(self.topic_prob.shape[2]):
-                self.topic_prob[doc, :, voc] = self.document_topic_prob[doc, :] * self.topic_word_prob[:, voc]
-                self.topic_prob[doc, :, voc] /= self.topic_prob[doc, :, voc].sum()
-        self.topic_word_prob = np.nan_to_num(self.topic_word_prob)
+#        self.topic_word_prob = np.nan_to_num(self.topic_word_prob)
+#        for doc in range(self.topic_prob.shape[0]):
+#            for voc in range(self.topic_prob.shape[2]):
+#                self.topic_prob[doc, :, voc] = self.document_topic_prob[doc, :] * self.topic_word_prob[:, voc]
+#                self.topic_prob[doc, :, voc] /= self.topic_prob[doc, :, voc].sum()
+#        self.topic_word_prob = np.nan_to_num(self.topic_word_prob)
         
     def maximization_step(self, number_of_topics):
         """ The M-step updates P(w | z)
@@ -192,37 +192,35 @@ class Corpus(object):
         
         # ############################
         # your code here
-#        for index_topic in range(number_of_topics):
-#            for index_word in range(len(self.vocabulary)):
-#
-#                for index_doc in range(len(self.documents)):
-#                    count = self.term_doc_matrix[index_doc, index_word]
-#                    self.topic_word_prob[index_topic, index_word] += count * self.topic_prob[index_doc, index_topic, index_word]
-#            self.topic_word_prob[index_topic, :] /= self.topic_word_prob[index_topic, :].sum()
+        for index_topic in range(number_of_topics):
+            for index_word in range(len(self.vocabulary)):
+                for index_doc in range(len(self.documents)):
+                    count = self.term_doc_matrix[index_doc, index_word]
+                    self.topic_word_prob[index_topic, index_word] += count * self.topic_prob[index_doc, index_topic, index_word]
+            self.topic_word_prob[index_topic, :] /= self.topic_word_prob[index_topic, :].sum()
             
-        for topic in range(self.topic_prob.shape[1]):
-            for voc in range(self.topic_prob.shape[2]):
-                self.topic_word_prob[topic, voc] = self.term_doc_matrix[:, voc].dot(self.topic_prob[:, topic, voc])
-            self.topic_word_prob[topic, :] /= self.topic_word_prob[topic, :].sum()
-        self.topic_word_prob = np.nan_to_num(self.topic_word_prob)
-        
+#        for topic in range(self.topic_prob.shape[1]):
+#            for voc in range(self.topic_prob.shape[2]):
+#                self.topic_word_prob[topic, voc] = self.term_doc_matrix[:, voc].dot(self.topic_prob[:, topic, voc])
+#            self.topic_word_prob[topic, :] /= self.topic_word_prob[topic, :].sum()
+#        self.topic_word_prob = np.nan_to_num(self.topic_word_prob)
+
         # update P(z | d)  Pi
 
         # ############################
         # your code here
-#        for index_doc in range(len(self.documents)):
-#            for index_topic in range(number_of_topics):
-#
-#                for index_word in range(len(self.vocabulary)):
-#                    count = self.term_doc_matrix[index_doc, index_word]
-#                    self.document_topic_prob[index_doc, index_topic] += count * self.topic_prob[index_doc, index_topic, index_word]
-#            self.document_topic_prob[index_doc, :] /= self.document_topic_prob[index_doc, :].sum()
+        for index_doc in range(len(self.documents)):
+            for index_topic in range(number_of_topics):
+                for index_word in range(len(self.vocabulary)):
+                    count = self.term_doc_matrix[index_doc, index_word]
+                    self.document_topic_prob[index_doc, index_topic] += count * self.topic_prob[index_doc, index_topic, index_word]
+            self.document_topic_prob[index_doc, :] /= self.document_topic_prob[index_doc, :].sum()
 
-        for doc in range(self.topic_prob.shape[0]):
-            for topic in range(self.topic_prob.shape[1]):
-                self.document_topic_prob[doc, topic] = self.term_doc_matrix[doc, :].dot(self.topic_prob[doc, topic, :])
-            self.document_topic_prob[doc, :] /= self.document_topic_prob[doc, :].sum()
-        self.document_topic_prob = np.nan_to_num(self.document_topic_prob)
+#        for doc in range(self.topic_prob.shape[0]):
+#            for topic in range(self.topic_prob.shape[1]):
+#                self.document_topic_prob[doc, topic] = self.term_doc_matrix[doc, :].dot(self.topic_prob[doc, topic, :])
+#            self.document_topic_prob[doc, :] /= self.document_topic_prob[doc, :].sum()
+#        self.document_topic_prob = np.nan_to_num(self.document_topic_prob)
 
     def calculate_likelihood(self, number_of_topics):
         """ Calculate the current log-likelihood of the model using
