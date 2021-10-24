@@ -57,20 +57,20 @@ class Corpus(object):
         self.number_of_documents = len(self.documents)
 
         path.close()
-       #print(self.number_of_documents)
+        #print(self.number_of_documents)
 
-#         print(self.documents_path)
-#         with open(self.documents_path, 'r') as file:
-#             for line in file.readlines():
-#                 doc = list()
-#                 doc.extend(line.split())
-#                 self.documents.append(doc)
-#                 # self.documents.append(doc)
-#                 self.number_of_documents += 1
-
-#         # print(self.documents)
-#         print(len(self.documents))
-#         print(self.number_of_documents)
+#        print(self.documents_path)
+#        with open(self.documents_path, 'r') as file:
+#            for line in file.readlines():
+#                doc = list()
+#                doc.extend(line.split())
+#                self.documents.append(doc)
+#                # self.documents.append(doc)
+#                self.number_of_documents += 1
+#
+#        # print(self.documents)
+#        print(len(self.documents))
+#        print(self.number_of_documents)
 
     def build_vocabulary(self):
         """
@@ -87,12 +87,12 @@ class Corpus(object):
         self.vocabulary_size = len(self.vocabulary)
         #print(self.vocabulary)
 
-#         res = set()
-#         for doc in self.documents:
-#             res.update(doc)
-#         self.vocabulary = res
-#         self.vocabulary_size = len(res)
-#         self.vocabulary_dist = {k: i for i, k in enumerate(self.vocabulary)}
+#        res = set()
+#        for doc in self.documents:
+#            res.update(doc)
+#        self.vocabulary = res
+#        self.vocabulary_size = len(res)
+#        self.vocabulary_dist = {k: i for i, k in enumerate(self.vocabulary)}
 
     def build_term_doc_matrix(self):
         """
@@ -102,22 +102,22 @@ class Corpus(object):
         """
         # ############################
         # your code here
-        self.term_doc_matrix = np.zeros([self.number_of_documents, self.vocabulary_size], dtype = np.int64)
-        for index_doc, document in enumerate(self.documents):
-            term_count = np.zeros([self.vocabulary_size])
-            for word in document:
-                if word in self.vocabulary:
-                    index_term = self.vocabulary.index(word)
-                    term_count[index_term] +=1
-            self.term_doc_matrix[index_doc] = term_count
-#         print(self.term_doc_matrix)
+#        self.term_doc_matrix = np.zeros([self.number_of_documents, self.vocabulary_size], dtype = np.int64)
+#        for index_doc, document in enumerate(self.documents):
+#            term_count = np.zeros([self.vocabulary_size])
+#            for word in document:
+#                if word in self.vocabulary:
+#                    index_term = self.vocabulary.index(word)
+#                    term_count[index_term] +=1
+#            self.term_doc_matrix[index_doc] = term_count
+##         print(self.term_doc_matrix)
 
-#         self.term_doc_matrix = np.zeros(shape=(self.number_of_documents, self.vocabulary_size))
+        self.term_doc_matrix = np.zeros(shape=(self.number_of_documents, self.vocabulary_size))
 
-#         for i, doc in enumerate(self.documents):
-#             for term in doc:
-#                 self.term_doc_matrix[i][self.vocabulary_dist[term]] += 1
-#         # print(self.term_doc_matrix)
+        for i, doc in enumerate(self.documents):
+            for term in doc:
+                self.term_doc_matrix[i][self.vocabulary_dist[term]] += 1
+        # print(self.term_doc_matrix)
 
 
     def initialize_randomly(self, number_of_topics):
@@ -167,21 +167,21 @@ class Corpus(object):
         
         # ############################
         # your code here
-#        for index_doc in range(len(self.documents)):
-#            for index_word in range(len(self.vocabulary)):
-#                denomitor = 0
-#                for index_topic in range(number_of_topics):
-#                    self.topic_prob[index_doc, index_topic, index_word] = self.document_topic_prob[index_doc, index_topic] * self.topic_word_prob[index_topic, index_word]
-#                    denomitor += self.topic_prob[index_doc, index_topic, index_word]
-#                for index_topic in range(number_of_topics):
-#                    self.topic_prob[index_doc, index_topic, index_word] /= denomitor
+        for index_doc in range(len(self.documents)):
+            for index_word in range(len(self.vocabulary)):
+                denomitor = 0
+                for index_topic in range(number_of_topics):
+                    self.topic_prob[index_doc, index_topic, index_word] = self.document_topic_prob[index_doc, index_topic] * self.topic_word_prob[index_topic, index_word]
+                    denomitor += self.topic_prob[index_doc, index_topic, index_word]
+                for index_topic in range(number_of_topics):
+                    self.topic_prob[index_doc, index_topic, index_word] /= denomitor
 
-        self.topic_word_prob = np.nan_to_num(self.topic_word_prob)
-        for doc in range(self.topic_prob.shape[0]):
-            for voc in range(self.topic_prob.shape[2]):
-                self.topic_prob[doc, :, voc] = self.document_topic_prob[doc, :] * self.topic_word_prob[:, voc]
-                self.topic_prob[doc, :, voc] /= self.topic_prob[doc, :, voc].sum()
-        self.topic_word_prob = np.nan_to_num(self.topic_word_prob)
+#        self.topic_word_prob = np.nan_to_num(self.topic_word_prob)
+#        for doc in range(self.topic_prob.shape[0]):
+#            for voc in range(self.topic_prob.shape[2]):
+#                self.topic_prob[doc, :, voc] = self.document_topic_prob[doc, :] * self.topic_word_prob[:, voc]
+#                self.topic_prob[doc, :, voc] /= self.topic_prob[doc, :, voc].sum()
+#        self.topic_word_prob = np.nan_to_num(self.topic_word_prob)
         
     def maximization_step(self, number_of_topics):
         """ The M-step updates P(w | z)
@@ -192,37 +192,35 @@ class Corpus(object):
         
         # ############################
         # your code here
-#        for index_topic in range(number_of_topics):
-#            for index_word in range(len(self.vocabulary)):
-#
-#                for index_doc in range(len(self.documents)):
-#                    count = self.term_doc_matrix[index_doc, index_word]
-#                    self.topic_word_prob[index_topic, index_word] += count * self.topic_prob[index_doc, index_topic, index_word]
-#            self.topic_word_prob[index_topic, :] /= self.topic_word_prob[index_topic, :].sum()
+        for index_topic in range(number_of_topics):
+            for index_word in range(len(self.vocabulary)):
+                for index_doc in range(len(self.documents)):
+                    count = self.term_doc_matrix[index_doc, index_word]
+                    self.topic_word_prob[index_topic, index_word] += count * self.topic_prob[index_doc, index_topic, index_word]
+            self.topic_word_prob[index_topic, :] /= self.topic_word_prob[index_topic, :].sum()
             
-        for topic in range(self.topic_prob.shape[1]):
-            for voc in range(self.topic_prob.shape[2]):
-                self.topic_word_prob[topic, voc] = self.term_doc_matrix[:, voc].dot(self.topic_prob[:, topic, voc])
-            self.topic_word_prob[topic, :] /= self.topic_word_prob[topic, :].sum()
-        self.topic_word_prob = np.nan_to_num(self.topic_word_prob)
-        
+#        for topic in range(self.topic_prob.shape[1]):
+#            for voc in range(self.topic_prob.shape[2]):
+#                self.topic_word_prob[topic, voc] = self.term_doc_matrix[:, voc].dot(self.topic_prob[:, topic, voc])
+#            self.topic_word_prob[topic, :] /= self.topic_word_prob[topic, :].sum()
+#        self.topic_word_prob = np.nan_to_num(self.topic_word_prob)
+
         # update P(z | d)  Pi
 
         # ############################
         # your code here
-#        for index_doc in range(len(self.documents)):
-#            for index_topic in range(number_of_topics):
-#
-#                for index_word in range(len(self.vocabulary)):
-#                    count = self.term_doc_matrix[index_doc, index_word]
-#                    self.document_topic_prob[index_doc, index_topic] += count * self.topic_prob[index_doc, index_topic, index_word]
-#            self.document_topic_prob[index_doc, :] /= self.document_topic_prob[index_doc, :].sum()
+        for index_doc in range(len(self.documents)):
+            for index_topic in range(number_of_topics):
+                for index_word in range(len(self.vocabulary)):
+                    count = self.term_doc_matrix[index_doc, index_word]
+                    self.document_topic_prob[index_doc, index_topic] += count * self.topic_prob[index_doc, index_topic, index_word]
+            self.document_topic_prob[index_doc, :] /= self.document_topic_prob[index_doc, :].sum()
 
-        for doc in range(self.topic_prob.shape[0]):
-            for topic in range(self.topic_prob.shape[1]):
-                self.document_topic_prob[doc, topic] = self.term_doc_matrix[doc, :].dot(self.topic_prob[doc, topic, :])
-            self.document_topic_prob[doc, :] /= self.document_topic_prob[doc, :].sum()
-        self.document_topic_prob = np.nan_to_num(self.document_topic_prob)
+#        for doc in range(self.topic_prob.shape[0]):
+#            for topic in range(self.topic_prob.shape[1]):
+#                self.document_topic_prob[doc, topic] = self.term_doc_matrix[doc, :].dot(self.topic_prob[doc, topic, :])
+#            self.document_topic_prob[doc, :] /= self.document_topic_prob[doc, :].sum()
+#        self.document_topic_prob = np.nan_to_num(self.document_topic_prob)
 
     def calculate_likelihood(self, number_of_topics):
         """ Calculate the current log-likelihood of the model using
@@ -232,24 +230,22 @@ class Corpus(object):
         """
         # ############################
         # your code here
-#         likelihood = 0.0
-#         for index_doc in range(len(self.documents)):
-#             sum = 0
-#             for index_word in range(len(self.vocabulary)):
-#                 sum1 = 0;
-#                 for index_topic in range(number_of_topics):
-#                     sum1 += self.document_topic_prob[index_doc,index_topic]*self.topic_word_prob[index_topic,index_word]
-#                 sum1 = np.log(sum1)
-#                 sum1 *= self.term_doc_matrix[index_doc, index_word]
-#             sum += sum1
-#         likelihood = sum
-                
+        likelihood = 0.0
+        for index_doc in range(len(self.documents)):
+            sum = 0
+            for index_word in range(len(self.vocabulary)):
+                sum1 = 0;
+                for index_topic in range(number_of_topics):
+                    sum1 += self.document_topic_prob[index_doc,index_topic]*self.topic_word_prob[index_topic,index_word]
+                sum1 = np.log(sum1)
+            sum += self.term_doc_matrix[index_doc, index_word] * sum1
+        likelihood += sum
+         
         
 #         self.likelihoods.append(np.sum(np.log(self.document_topic_prob @ self.topic_word_prob) * self.term_doc_matrix))
-        likelihood = np.sum(self.term_doc_matrix * np.log(np.matmul(self.document_topic_prob, self.topic_word_prob)))
+#        likelihood = np.sum(self.term_doc_matrix * np.log(np.matmul(self.document_topic_prob, self.topic_word_prob)))
         self.likelihoods.append(likelihood)
         
-        print(self.likelihoods[-1])
         return self.likelihoods[-1]
 
     def plsa(self, number_of_topics, max_iter, epsilon):
@@ -275,6 +271,7 @@ class Corpus(object):
         last_topic_prob = self.topic_prob.copy()
         
         for iteration in range(max_iter):
+            
             print("Iteration #" + str(iteration + 1) + "...")
 
             # ############################
@@ -296,17 +293,17 @@ class Corpus(object):
             current_likelihood = tmp_likelihood
             print(max(self.likelihoods))
             
-#             self.maximization_step(number_of_topics)
-#             self.calculate_likelihood(number_of_topics)
-            
-#             gap = np.abs(self.calculate_likelihood(number_of_topics) - current_likelihood)
-            
-#             if gap < epsilon:
-#                 break;
-#             else:
-#                 current_likelihood = self.calculate_likelihood(number_of_topics)
-                
-#         return self.topic_word_prob, self.document_topic_prob
+#            self.maximization_step(number_of_topics)
+#            self.calculate_likelihood(number_of_topics)
+#
+#            gap = np.abs(self.calculate_likelihood(number_of_topics) - current_likelihood)
+#
+#            if gap < epsilon:
+#                break;
+#            else:
+#                current_likelihood = self.calculate_likelihood(number_of_topics)
+#
+#        return self.topic_word_prob, self.document_topic_prob
             
             
             
