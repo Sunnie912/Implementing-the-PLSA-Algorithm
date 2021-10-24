@@ -15,7 +15,6 @@ def normalize(input_matrix):
         raise Exception("Error while normalizing. Row(s) sum to zero")
     new_matrix = input_matrix / row_sums[:, np.newaxis]
     return new_matrix
-
        
 class Corpus(object):
 
@@ -51,9 +50,9 @@ class Corpus(object):
         with open(self.documents_path, "r+") as path:
             lines = path.readlines()
         
+        document = []
         for line in lines:
-            document = []
-            document = re.split("\t|\n| ", line)
+            document = line.split()
             self.documents.append(document)
         self.number_of_documents = len(self.documents)
 
