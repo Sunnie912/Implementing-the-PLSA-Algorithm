@@ -54,8 +54,8 @@ class Corpus(object):
                 document = re.split("\t|\n| ", line)
 #                document.extend(line.split())
                 self.documents.append(document)
-                self.number_of_documents +=1
-#        self.number_of_documents = len(self.documents)
+#                self.number_of_documents +=1
+        self.number_of_documents = len(self.documents)
 
 #        path.close()
         #print(self.number_of_documents)
