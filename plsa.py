@@ -49,11 +49,12 @@ class Corpus(object):
         # your code here
         with open(self.documents_path, "r+") as path:
             lines = path.readlines()
-            document = []
             for line in lines:
+                document = []
                 document = re.split("\t|\n| ", line)
                 self.documents.append(document)
-        self.number_of_documents = len(self.documents)
+                self.number_of_documents +=1
+#        self.number_of_documents = len(self.documents)
 
         path.close()
         #print(self.number_of_documents)
@@ -64,7 +65,6 @@ class Corpus(object):
 #                doc = list()
 #                doc.extend(line.split())
 #                self.documents.append(doc)
-#                # self.documents.append(doc)
 #                self.number_of_documents += 1
 #
 #        # print(self.documents)
