@@ -230,21 +230,21 @@ class Corpus(object):
         """
         # ############################
         # your code here
-#         likelihood = 0.0
-#         for index_doc in range(len(self.documents)):
-#             sum = 0
-#             for index_word in range(len(self.vocabulary)):
-#                 sum1 = 0;
-#                 for index_topic in range(number_of_topics):
-#                     sum1 += self.document_topic_prob[index_doc,index_topic]*self.topic_word_prob[index_topic,index_word]
-#                 sum1 = np.log(sum1)
-#                 sum1 *= self.term_doc_matrix[index_doc, index_word]
-#             sum += sum1
-#         likelihood = sum
+         likelihood = 0.0
+         for index_doc in range(len(self.documents)):
+             sum = 0
+             for index_word in range(len(self.vocabulary)):
+                 sum1 = 0;
+                 for index_topic in range(number_of_topics):
+                     sum1 += self.document_topic_prob[index_doc,index_topic]*self.topic_word_prob[index_topic,index_word]
+                 sum1 = np.log(sum1)
+                 sum1 *= self.term_doc_matrix[index_doc, index_word]
+             sum += sum1
+         likelihood += sum
                 
         
 #         self.likelihoods.append(np.sum(np.log(self.document_topic_prob @ self.topic_word_prob) * self.term_doc_matrix))
-        likelihood = np.sum(self.term_doc_matrix * np.log(np.matmul(self.document_topic_prob, self.topic_word_prob)))
+#        likelihood = np.sum(self.term_doc_matrix * np.log(np.matmul(self.document_topic_prob, self.topic_word_prob)))
         self.likelihoods.append(likelihood)
         
         print(self.likelihoods[-1])
