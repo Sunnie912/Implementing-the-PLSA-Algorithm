@@ -93,6 +93,7 @@ class Corpus(object):
 #        self.vocabulary_size = len(res)
 #        print("size2: ", self.vocabulary_size)
         self.vocabulary_dist = {k: i for i, k in enumerate(self.vocabulary)}
+        # self.vocabulary_dist {'': 0, 'seattle': 1, 'willis': 2, 'chicago': 3, '1': 4, 'rainier': 5, '0': 6, 'mount': 7, 'tower': 8}
 
     def build_term_doc_matrix(self):
         """
@@ -102,22 +103,22 @@ class Corpus(object):
         """
         # ############################
         # your code here
-#        self.term_doc_matrix = np.zeros([self.number_of_documents, self.vocabulary_size], dtype = np.int64)
-#        for index_doc, document in enumerate(self.documents):
-#            term_count = np.zeros([self.vocabulary_size])
-#            for word in document:
-#                if word in self.vocabulary:
-#                    index_term = self.vocabulary.index(word)
-#                    term_count[index_term] +=1
-#            self.term_doc_matrix[index_doc] = term_count
-##         print(self.term_doc_matrix)
+        self.term_doc_matrix = np.zeros([self.number_of_documents, self.vocabulary_size], dtype = np.int64)
+        for index_doc, document in enumerate(self.documents):
+            term_count = np.zeros([self.vocabulary_size])
+            for word in document:
+                if word in self.vocabulary:
+                    index_term = self.vocabulary.index(word)
+                    term_count[index_term] +=1
+            self.term_doc_matrix[index_doc] = term_count
+#         print(self.term_doc_matrix)
 
-        self.term_doc_matrix = np.zeros(shape=(self.number_of_documents, self.vocabulary_size))
-
-        for i, doc in enumerate(self.documents):
-            for term in doc:
-                self.term_doc_matrix[i][self.vocabulary_dist[term]] += 1
-        # print(self.term_doc_matrix)
+#        self.term_doc_matrix = np.zeros(shape=(self.number_of_documents, self.vocabulary_size))
+#
+#        for i, doc in enumerate(self.documents):
+#            for term in doc:
+#                self.term_doc_matrix[i][self.vocabulary_dist[term]] += 1
+#        # print(self.term_doc_matrix)
 
 
     def initialize_randomly(self, number_of_topics):
