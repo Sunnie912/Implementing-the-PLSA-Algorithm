@@ -52,9 +52,7 @@ class Corpus(object):
             for line in lines:
                 document = []
                 document = re.split("\t|\n| ", line)
-#                document.extend(line.split())
                 self.documents.append(document)
-#                self.number_of_documents +=1
         self.number_of_documents = len(self.documents)
 
 #        path.close()
@@ -80,20 +78,20 @@ class Corpus(object):
         """
         # #############################
         # your code here
-#        for document in self.documents:
-#            for word in document:
-#                if word not in self.vocabulary and word != "":
-#                    self.vocabulary.append(word)
-#        self.vocabulary_size = len(self.vocabulary)
-#        print("size1: ", self.vocabulary_size)
+        for document in self.documents:
+            for word in document:
+                if word not in self.vocabulary and word != "":
+                    self.vocabulary.append(word)
+        self.vocabulary_size = len(self.vocabulary)
+        print("size1: ", self.vocabulary_size)
 
-        res = set()
-        for doc in self.documents:
-            res.update(doc)
-        self.vocabulary = res
-        self.vocabulary_size = len(res)
-        print("size2: ", self.vocabulary_size)
-        self.vocabulary_dist = {k: i for i, k in enumerate(self.vocabulary)}
+#        res = set()
+#        for doc in self.documents:
+#            res.update(doc)
+#        self.vocabulary = res
+#        self.vocabulary_size = len(res)
+#        print("size2: ", self.vocabulary_size)
+#        self.vocabulary_dist = {k: i for i, k in enumerate(self.vocabulary)}
 
     def build_term_doc_matrix(self):
         """
