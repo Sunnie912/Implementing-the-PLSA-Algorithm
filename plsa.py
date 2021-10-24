@@ -238,8 +238,7 @@ class Corpus(object):
                  for index_topic in range(number_of_topics):
                      sum1 += self.document_topic_prob[index_doc,index_topic]*self.topic_word_prob[index_topic,index_word]
                  sum1 = np.log(sum1)
-                 sum1 *= self.term_doc_matrix[index_doc, index_word]
-             sum += sum1
+             sum += self.term_doc_matrix[index_doc, index_word] * sum1
          likelihood += sum
                 
         
