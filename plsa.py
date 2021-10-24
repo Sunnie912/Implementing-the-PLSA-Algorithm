@@ -80,19 +80,19 @@ class Corpus(object):
         """
         # #############################
         # your code here
-        for document in self.documents:
-            for word in document:
-                if word not in self.vocabulary and word != "":
-                    self.vocabulary.append(word)
-        self.vocabulary_size = len(self.vocabulary)
-        #print(self.vocabulary)
+#        for document in self.documents:
+#            for word in document:
+#                if word not in self.vocabulary and word != "":
+#                    self.vocabulary.append(word)
+#        self.vocabulary_size = len(self.vocabulary)
+#        #print(self.vocabulary)
 
-#        res = set()
-#        for doc in self.documents:
-#            res.update(doc)
-#        self.vocabulary = res
-#        self.vocabulary_size = len(res)
-#        self.vocabulary_dist = {k: i for i, k in enumerate(self.vocabulary)}
+        res = set()
+        for doc in self.documents:
+            res.update(doc)
+        self.vocabulary = res
+        self.vocabulary_size = len(res)
+        self.vocabulary_dist = {k: i for i, k in enumerate(self.vocabulary)}
 
     def build_term_doc_matrix(self):
         """
